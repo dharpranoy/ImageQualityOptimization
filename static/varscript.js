@@ -32,16 +32,18 @@ class Slider {
   updateSlider (newValue) {
     let value = this.asPercentage(this.rangeElement.value)
     this.valueElement.innerHTML = value
+    let num=parseInt(value.slice(0,-1))
+    console.log(num)
     fetch('/processimg',{
-		method:'GET',
-	    	body:JSON.stringify({'qua':value}),
+		    method:'POST',
+	    	body:JSON.stringify({'qua':num}),
 	    	headers: {'Content-type':'application/json'}
     })
     .then(request => request.json())	
     .then(cons=>{
     	for (co of cons){
 			
-	}
+	    }
     })
     this.rangeElement.style = this.generateBackground(this.rangeElement.value)
   }

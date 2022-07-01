@@ -7,24 +7,39 @@
 			#head	{
 				text-align:center;
 			}
-			.image {
+			#image {
 				display:flex;
 				justify-content: center;
 			}
 		</style>
 		<script>
 			getimg=()=>{
-				let file=document.getElementById('upload')
+				let input=document.getElementById('upload')
+					if (input.files.length>0){
+						let File=input.files[0]
+						const fd = new FormData()
+						fd.append('im',File)
+						fetch('/uploadfile',{
+								method:'POST',
+								body:fd
+							})
+						.then(ob=>{
+									let block=document.getElementById('source')
+									block.innerHTML=""
+									block.innerHTML=ob.filename
 
+						})
+				}
 			}
 		</script>
 	</head>
 	<body>
 		<h1 id="head">Image Quality Optimizer</h1>
-		<div class="image">
+		<div id="image">
 			<input type="file" id="upload">
-			<input type="file" onclick="getimg()">
-			<img src="{{ url_for('static',path='/null.jpg') }}">
+			<button type="button" onclick="getimg()">Upload</button>
+			<div id='source'>
+			</div>
 		</div>
 		<div class="container">
 		  <form class="range">
