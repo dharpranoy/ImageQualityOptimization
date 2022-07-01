@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Image Optimum Quality</title>
+		<link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+		<style>
+			#head	{
+				text-align:center;
+			}
+			.image {
+				display:flex;
+				justify-content: center;
+			}
+		</style>
+		<script>
+			getimg=()=>{
+				let file=document.getElementById('upload')
+
+			}
+		</script>
+	</head>
+	<body>
+		<h1 id="head">Image Quality Optimizer</h1>
+		<div class="image">
+			<input type="file" id="upload">
+			<input type="file" onclick="getimg()">
+			<img src="{{ url_for('static',path='/null.jpg') }}">
+		</div>
+		<div class="container">
+		  <form class="range">
+    			<div class="form-group range__slider">
+     				 <input type="range" step="1">
+			</div>
+    			<div class="form-group range__value">
+      				<label>Image Quality</label>
+      				<span></span>            
+    			</div>
+  		  </form>
+		</div>
+		<script src="{{ url_for('static',path='/varscript.js') }}">
+		</script>
+	</body>
+</html>
