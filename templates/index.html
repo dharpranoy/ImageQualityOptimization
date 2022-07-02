@@ -4,57 +4,146 @@
 		<title>Image Optimum Quality</title>
 		<link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
 		<style>
-			#head	{
-				text-align:center;
-			}
-			#image {
-				display:flex;
-				justify-content: center;
-			}
-			.button {
-				  display: inline-block;
-				  border-radius: 4px;
-				  background-color: #f4511e;
-				  border: none;
-				  color: #FFFFFF;
-				  text-align: center;
-				  font-size: 28px;
-				  padding: 20px;
-				  width: 200px;
-				  transition: all 0.5s;
-				  cursor: pointer;
-				  margin: 5px;
+				#head	{
+					text-align:center;
 				}
-
-				.button span {
-				  cursor: pointer;
-				  display: inline-block;
-				  position: relative;
-				  transition: 0.5s;
+				#image {
+					display:flex;
+					justify-content: center;
 				}
-
-				.button span:after {
-				  content: '\00bb';
-				  position: absolute;
-				  opacity: 0;
-				  top: 0;
-				  right: -20px;
-				  transition: 0.5s;
+				input[type=file]{
+						padding: 1rem 2rem;
+						margin-right:3rem;
+						display: inline-block;
+						border: 3px solid #333333;
+						font-size: 1rem;
+						border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+						text-transform: uppercase;
+						letter-spacing: 0.3ch;
+						background: #ffffff;
+						position: relative;
+						
+						&::before {
+							content: '';
+							border: 2px solid #353535;
+							display: block;
+							width: 10%;
+							height: 10%;
+							position: absolute;
+							top: 20%;
+							left: 20%;
+							transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
+							border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+						}	
 				}
-
-				.button:hover span {
-				  padding-right: 25px;
+				#loc{
+					display:flex;
+					justify-content:center;
+					padding:2rem;
 				}
-
-				.button:hover span:after {
-				  opacity: 1;
-				  right: 0;
+				#loader {
+					 visibility:hidden;
+					 border: 16px solid #f3f3f3;
+					  border-radius: 50%;
+					  border-top: 16px solid blue;
+					  border-right: 16px solid green;
+					  border-bottom: 16px solid red;
+					  width: 120px;
+					  height: 120px;
+					  -webkit-animation: spin 2s linear infinite;
+					  animation: spin 2s linear infinite;
+					}
+				
+					@-webkit-keyframes spin {
+					  0% { -webkit-transform: rotate(0deg); }
+					  100% { -webkit-transform: rotate(360deg); }
+					}
+				
+					@keyframes spin {
+					  0% { transform: rotate(0deg); }
+					  100% { transform: rotate(360deg); }
+					}
+				.button {
+						box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+					  display: inline-block;
+					  border-radius: 4px;
+					  background-color: #f4511e;
+					  border: none;
+					  color: #FFFFFF;
+					  text-align: center;
+					  font-size: 28px;
+					  padding: 20px;
+					  width: 200px;
+					  transition: all 0.5s;
+					  cursor: pointer;
+					  margin: 5px;
+					}
+				
+					.button span {
+					  cursor: pointer;
+					  display: inline-block;
+					  position: relative;
+					  transition: 0.5s;
+					}
+				
+					.button span:after {
+					  content: '\00bb';
+					  position: absolute;
+					  opacity: 0;
+					  top: 0;
+					  right: -20px;
+					  transition: 0.5s;
+					}
+					.button:hover{
+						 box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+					}
+					.button:hover span {
+					  padding-right: 25px;
+					}
+				
+					.button:hover span:after {
+					  opacity: 1;
+					  right: 0;
+					}
+				#download{
+					display:flex;
+					justify-content:center;
+				}
+				#upb{
+					padding:0.3rem;
+					width:7rem;
+					color:white;
+					
+					height:4rem;
+					font-size:1rem;
+					background-color:black;
+					border:2px solid black;
+					border-radius:0.2rem;
+					transition:0.4s;
+				}
+				#upb:hover{
+					color:white;
+					background-color:#008CBA;
+					border:2px solid #008CBA;
+					transition:0.4s;
+				}
+				#desc{
+					text-align:center;
 				}
 		</style>
 		<script>
-       			getimg=()=>{
+				let xhr = false
+				downl=()=>{
+					let input=document.getElementById('upload')
+						if (xhr==true){
+								window.location="/downloadfile"
+						}
+				}
+       	getimg=()=>{
 				let input=document.getElementById('upload')
 					if (input.files.length>0){
+						let load=document.getElementById('loader')
+						load.style.visibility='visible'
 						let File=input.files[0]
 						xhr=true
 						const fd = new FormData()
@@ -63,6 +152,9 @@
 								method:'POST',
 								body:fd
 						})
+						.then(res=>{
+							load.style.visibility='hidden'
+						})
 					}
 			}
 			
@@ -70,8 +162,11 @@
 	</head>
 	<body>
 		<h1 id="head">Image Quality Optimizer</h1>
+		<p id='desc'>
+			Creator : <i>Pranoy Dhar</i>
+		</p>
 		<div id="image">
-			<input type="file" id="upload">
+			<input type="file" id="upload" accept='image/jpeg,image/jpg'>
 			<button id="upb" type="button" onclick="getimg()">Upload</button>
 		</div>
 		<div class="container">
@@ -86,7 +181,11 @@
   		  </form>
 		</div>
 		<div id="download">
-			<a href="/downloadfile"><button class="button">Download</button></a>
+			<button class="button" onclick="downl()">Download</button>
+		</div>
+		<div id="loc">
+			<div id='loader'>
+			</div>
 		</div>
 		<script src="{{ url_for('static',path='/varscript.js') }}">
 		</script>

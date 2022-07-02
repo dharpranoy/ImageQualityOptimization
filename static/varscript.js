@@ -38,6 +38,8 @@ class Slider {
   }
 
   updateSlider (newValue) {
+    let loader=document.getElementById('loader')
+    loader.style.visibility='visible'
     let value = this.asPercentage(this.rangeElement.value)
     this.valueElement.innerHTML = value
     let num=parseInt(value.slice(0,-1))
@@ -48,7 +50,10 @@ class Slider {
 		method:'POST',
 	    	body:fd
     })
-   
+    .then(res=>{
+      loader.style.visibility='hidden'
+    })
+     
     this.rangeElement.style = this.generateBackground(this.rangeElement.value)
   }
 }
