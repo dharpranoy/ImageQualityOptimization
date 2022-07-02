@@ -1,3 +1,4 @@
+import os
 from PIL import Image,ImageEnhance
 import shutil
 from fastapi import FastAPI, Request, File, UploadFile, Form
@@ -12,17 +13,23 @@ def root(request:Request):
     return templates.TemplateResponse("index.html",{"request":request})
 
 
-@app.post("/uploadfile",response_class=FileResponse)
+@app.post("/uploadfile")
 def proc(im=Form()):
     with open("original.jpg","wb") as buffer:
         shutil.copyfileobj(im.file,buffer)
     img=Image.open('original.jpg')
-    img.save('reduced.jpg',quality=80)
-    return 'reduced.jpg'
-@app.post("/processimg",response_class=FileResponse)
-def modify(per:int=Form()):
+    img.save('/home/pranoydhar/Downloads/techsurf/submission/static/reduced.jpg',quality=81)
+    xk=Image.open('/home/pranoydhar/Downloads/techsurf/submission/static/reduced.jpg')
+    xk.close()
+    return {"foo":'True'}
+@app.post("/processimg")
+def modify(qua:int=Form()):
     img=Image.open('original.jpg')
-    img.save('reduced.jpg',quality=per)
-    return 'reduced.jpg'
-
-
+    img.save('/home/pranoydhar/Downloads/techsurf/submission/static/reduced.jpg',quality=qua)
+    xk=Image.open('/home/pranoydhar/Downloads/techsurf/submission/static/reduced.jpg')
+    xk.close()
+    return {"foo":'True'}
+@app.get("/downloadfile")
+def download_file():
+    filepath='/home/pranoydhar/Downloads/techsurf/submission/static/reduced.jpg'
+    return FileResponse(path=filepath,media_type='application/octet-stream',filename=filepath)

@@ -6,6 +6,14 @@ class Slider {
 
     this.rangeElement.addEventListener('input', this.updateSlider.bind(this))
   }
+  longpoll=async()=>{
+	  setInterval(()=>{
+		console.log('fetching...')
+		let block=document.getElementById('source')
+		block.innerHTML=""
+		block.innerHTML="<img src='{{ url_for('static',path='/reduced.jpg') }}' >"			
+	},3000)
+  }
 
   init() {
     this.rangeElement.setAttribute('min', options.min)
@@ -34,17 +42,13 @@ class Slider {
     this.valueElement.innerHTML = value
     let num=parseInt(value.slice(0,-1))
     console.log(num)
+    let fd = new FormData()
+    fd.append('qua',num)
     fetch('/processimg',{
-		    method:'POST',
-	    	body:JSON.stringify({'qua':num}),
-	    	headers: {'Content-type':'application/json'}
+		method:'POST',
+	    	body:fd
     })
-    .then(request => request.json())	
-    .then(cons=>{
-    	for (co of cons){
-			
-	    }
-    })
+   
     this.rangeElement.style = this.generateBackground(this.rangeElement.value)
   }
 }
@@ -53,13 +57,14 @@ let rangeElement = document.querySelector('.range [type="range"]')
 let valueElement = document.querySelector('.range .range__value span') 
 
 let options = {
-  min: 1,
+  min: 0,
   max: 100,
   cur: 80
 }
 
 if (rangeElement) {
   let slider = new Slider(rangeElement, valueElement, options)
+
 
   slider.init()
 }
