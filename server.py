@@ -18,14 +18,14 @@ def proc(im=Form()):
     with open("original.jpg","wb") as buffer:
         shutil.copyfileobj(im.file,buffer)
     img=Image.open('original.jpg')
-    img.save('/home/pranoydhar/techsurf2022/submission/static/reduced.jpg',quality=81)
+    img.save('./static/reduced.jpg',quality=81)
     return {"foo":'True'}
 @app.post("/processimg")
 def modify(qua:int=Form()):
     img=Image.open('original.jpg')
-    img.save('/home/pranoydhar/techsurf2022/submission/static/reduced.jpg',quality=qua)
+    img.save('./static/reduced.jpg',quality=qua)
     return {"foo":'True'}
 @app.get("/downloadfile")
 def download_file():
-    filepath='/home/pranoydhar/techsurf2022/submission/static/reduced.jpg'
+    filepath='./static/reduced.jpg'
     return FileResponse(path=filepath,media_type='application/octet-stream',filename='picture.jpg')
