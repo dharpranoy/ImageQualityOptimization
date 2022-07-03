@@ -145,7 +145,6 @@
 						let load=document.getElementById('loader')
 						load.style.visibility='visible'
 						let File=input.files[0]
-						xhr=true
 						const fd = new FormData()
 						fd.append('im',File)
 						fetch('/uploadfile',{
@@ -153,6 +152,7 @@
 								body:fd
 						})
 						.then(res=>{
+							xhr=true
 							load.style.visibility='hidden'
 						})
 					}
